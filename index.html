@@ -1,0 +1,32 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <script type="text/javascript">
+            $(documnet).ready(function(){
+                function loading_show(){
+                    $('#loading').fadeOut();
+                }
+                function loading_hide(){
+                    loading_show();
+                    $.ajax({
+                        type: "POST",
+                        url: 'load_data.php',
+                        data: "page="+page,
+                        success: function(msg){
+                            $("#container").ajaxComplete(function(event,request,settings){
+                                loading_hide();
+                                $("#container").html(msg);
+                            });
+                        }
+                    });
+                }
+                loadData(1);
+                $('#container .pagination li.active').live('click',function(){
+                    var page  = $(this).attr('p');
+                    loadData(page);
+                });
+            });
+        </script>
+    </body>
+</html>
